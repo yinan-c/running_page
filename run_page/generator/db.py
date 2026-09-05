@@ -1,5 +1,6 @@
 import datetime
 import random
+import time
 import string
 
 from geopy.geocoders import options, Nominatim
@@ -28,6 +29,55 @@ def randomword():
 options.default_user_agent = "running_page"
 # reverse the location (lat, lon) -> location detail
 g = Nominatim(user_agent=randomword())
+
+# Nominatim returns whatever the OSM name tags hold. Asking for Chinese yields
+# values like "英国;英國" because OSM stores both scripts in one name:zh tag,
+# so geocode in English and keep only the components the site actually shows.
+GEOCODE_LANGUAGE = "en"
+# Nominatim nests the populated place under different keys by country.
+_CITY_KEYS = ("city", "town", "village", "municipality", "county", "suburb")
+# At its default zoom Nominatim answers with the smallest administrative unit
+# containing the point, which in some countries is a district rather than the
+# city: Baohe District instead of Hefei. Zoom 6 resolves the city-level unit,
+# but returns nothing for smaller cities such as Oxford, so query both and let
+# the coarse answer win only when it actually names a city.
+CITY_ZOOM = 6
+_COARSE_CITY_KEYS = ("city", "town", "municipality")
+# Nominatim asks for at most one request per second.
+_GEOCODE_DELAY_SECONDS = 1.1
+
+
+def _pick(address, keys):
+    return next((address[k] for k in keys if address.get(k)), "")
+
+
+def reverse_geocode(lat, lon):
+    """Return "City, State, Country" for a coordinate, skipping empty parts."""
+    detailed = g.reverse(f"{lat}, {lon}", language=GEOCODE_LANGUAGE)
+    if detailed is None:
+        return ""
+    address = (detailed.raw or {}).get("address", {})
+    city = _pick(address, _CITY_KEYS)
+
+    time.sleep(_GEOCODE_DELAY_SECONDS)
+    coarse = g.reverse(f"{lat}, {lon}", language=GEOCODE_LANGUAGE, zoom=CITY_ZOOM)
+    if coarse is not None:
+        city = _pick((coarse.raw or {}).get("address", {}), _COARSE_CITY_KEYS) or city
+
+    # OSM names the London and Manchester conurbations "Greater ..."; the plain
+    # name is what people call the city.
+    if city.startswith("Greater "):
+        city = city[len("Greater ") :]
+
+    country = address.get("country", "")
+    # OSM spells some Chinese prefecture-cities "Hangzhou City" and others
+    # "Hefei". Scope the trim to China: elsewhere "City" is part of the name
+    # (New York City, Kansas City).
+    if country == "China" and city.endswith(" City"):
+        city = city[: -len(" City")]
+
+    parts = [city, address.get("state", ""), country]
+    return ", ".join(p for p in parts if p)
 
 
 ACTIVITY_KEYS = [
@@ -167,20 +217,11 @@ def update_or_create_activity(session, run_activity):
             # or China for #176 to fix
             if not location_country and start_point or location_country == "China":
                 try:
-                    location_country = str(
-                        g.reverse(
-                            f"{start_point.lat}, {start_point.lon}", language="zh-CN"  # type: ignore
-                        )
-                    )
+                    location_country = reverse_geocode(start_point.lat, start_point.lon)  # type: ignore
                 # limit (only for the first time)
                 except Exception:
                     try:
-                        location_country = str(
-                            g.reverse(
-                                f"{start_point.lat}, {start_point.lon}",
-                                language="zh-CN",  # type: ignore
-                            )
-                        )
+                        location_country = reverse_geocode(start_point.lat, start_point.lon)  # type: ignore
                     except Exception:
                         pass
 

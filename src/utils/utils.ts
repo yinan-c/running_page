@@ -153,7 +153,45 @@ const extractLocations = (str: string): string[] => {
 };
 
 const cities = chinaCities.map((c) => c.name);
-// what about oversea?
+
+// The sync writes "City, State, Country" from the geocoder's structured
+// address, which resolves cities anywhere. Activities synced before that change
+// hold the geocoder's full localised address instead, and are still parsed the
+// old way: Chinese city names matched against a fixed list.
+const isLegacyLocation = (location: string): boolean =>
+  /[\u4e00-\u9fa5]/.test(location);
+
+const legacyLocationForRun = (
+  location: string
+): { country: string; province: string; city: string } => {
+  let [city, province, country] = ['', '', ''];
+  // Only for Chinese now
+  // should fiter 臺灣
+  const cityMatch = extractLocations(location);
+  const provinceMatch = location.match(/[\u4e00-\u9fa5]{2,}(省|自治区)/);
+
+  if (cityMatch) {
+    city = cities.find((value) => cityMatch.includes(value)) as string;
+
+    if (!city) {
+      city = '';
+    }
+  }
+  if (provinceMatch) {
+    [province] = provinceMatch;
+  }
+  const l = location.split(',');
+  // or to handle keep location format
+  let countryMatch = l[l.length - 1].match(/[\u4e00-\u9fa5].*[\u4e00-\u9fa5]/);
+  if (!countryMatch && l.length >= 3) {
+    countryMatch = l[2].match(/[\u4e00-\u9fa5].*[\u4e00-\u9fa5]/);
+  }
+  if (countryMatch) {
+    [country] = countryMatch;
+  }
+  return { country, province, city };
+};
+
 const locationForRun = (
   run: Activity
 ): {
@@ -161,34 +199,26 @@ const locationForRun = (
   province: string;
   city: string;
 } => {
-  let location = run.location_country;
+  const location = run.location_country;
   let [city, province, country] = ['', '', ''];
   if (location) {
-    // Only for Chinese now
-    // should fiter 臺灣
-    const cityMatch = extractLocations(location);
-    const provinceMatch = location.match(/[\u4e00-\u9fa5]{2,}(省|自治区)/);
-
-    if (cityMatch) {
-      city = cities.find((value) => cityMatch.includes(value)) as string;
-
-      if (!city) {
-        city = '';
+    if (isLegacyLocation(location)) {
+      ({ city, province, country } = legacyLocationForRun(location));
+    } else {
+      // "City, State, Country", with either leading part omitted when the
+      // geocoder could not resolve it.
+      const parts = location
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
+      if (parts.length >= 3) {
+        [city, province] = parts;
+        country = parts[parts.length - 1];
+      } else if (parts.length === 2) {
+        [province, country] = parts;
+      } else if (parts.length === 1) {
+        [country] = parts;
       }
-    }
-    if (provinceMatch) {
-      [province] = provinceMatch;
-    }
-    const l = location.split(',');
-    // or to handle keep location format
-    let countryMatch = l[l.length - 1].match(
-      /[\u4e00-\u9fa5].*[\u4e00-\u9fa5]/
-    );
-    if (!countryMatch && l.length >= 3) {
-      countryMatch = l[2].match(/[\u4e00-\u9fa5].*[\u4e00-\u9fa5]/);
-    }
-    if (countryMatch) {
-      [country] = countryMatch;
     }
   }
   if (MUNICIPALITY_CITIES_ARR.includes(city)) {
@@ -446,22 +476,24 @@ export const computeKmSplitsFromStreams = (
     const prevTargetDist = (km - 1) * 1000;
 
     // 找到当前公里结束点索引
-    const endIdx = streams.distance.findIndex(d => d >= targetDist);
+    const endIdx = streams.distance.findIndex((d) => d >= targetDist);
     if (endIdx < 0) continue;
 
     // 找到当前公里开始点索引
-    const startIdx = km === 1 ? 0 : streams.distance.findIndex(d => d >= prevTargetDist);
+    const startIdx =
+      km === 1 ? 0 : streams.distance.findIndex((d) => d >= prevTargetDist);
     if (startIdx < 0) continue;
 
     // 计算该公里段数据
     const segmentSpeed = streams.velocity_smooth.slice(startIdx, endIdx + 1);
-    const avgSpeed = segmentSpeed.length > 0
-      ? segmentSpeed.reduce((a, b) => a + b, 0) / segmentSpeed.length
-      : 0;
+    const avgSpeed =
+      segmentSpeed.length > 0
+        ? segmentSpeed.reduce((a, b) => a + b, 0) / segmentSpeed.length
+        : 0;
 
     // 计算时间
     const elapsed_time = streams.time
-      ? (streams.time[endIdx] - streams.time[startIdx])
+      ? streams.time[endIdx] - streams.time[startIdx]
       : 0;
 
     // 计算平均心率
