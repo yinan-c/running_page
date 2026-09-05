@@ -94,6 +94,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      # pnpm-lock.yaml pins tachyons-sass to an SSH git URL because the lockfile
+      # was generated on a machine with url.insteadOf rewriting HTTPS to SSH.
+      # CI has no SSH key, so rewrite it back before installing.
+      - name: Use HTTPS for git dependencies
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
+
       - name: Install dependencies
         run: pnpm install
       - name: Build
