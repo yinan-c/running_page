@@ -71,7 +71,9 @@ class _CallbackHandler(BaseHTTPRequestHandler):
 def get_code_via_server(client_id: str) -> str:
     url = build_auth_url(client_id, REDIRECT_URI)
     print(f"Opening the Strava authorization page:\n  {url}\n")
-    print("Tick every permission box, especially 'View data about your private activities'.")
+    print(
+        "Tick every permission box, especially 'View data about your private activities'."
+    )
     webbrowser.open(url)
 
     server = HTTPServer(("localhost", REDIRECT_PORT), _CallbackHandler)
@@ -87,7 +89,9 @@ def get_code_via_server(client_id: str) -> str:
 def get_code_manually(client_id: str) -> str:
     url = build_auth_url(client_id, REDIRECT_URI)
     print(f"Open this URL in your browser and authorize:\n  {url}\n")
-    print("The browser will land on a localhost page that fails to load - that is fine.")
+    print(
+        "The browser will land on a localhost page that fails to load - that is fine."
+    )
     pasted = input("Paste the full redirected URL (or just the code): ").strip()
     if "code=" in pasted:
         code = parse_qs(urlparse(pasted).query).get("code", [None])[0]
