@@ -50,7 +50,6 @@ const BigNumberStat = ({
         <CyclingText
           className={valueColorClass}
           text={String(value)}
-          hoverPlay={true}
           interval={50}
         />
       </div>
@@ -63,9 +62,11 @@ const BigNumberStat = ({
       )}
     </div>
     {subtext && (
-      <div className={`text-xs md:text-sm font-medium text-gray-500 mt-2 whitespace-nowrap overflow-hidden text-ellipsis uppercase tracking-wider ${
-        clickable ? 'group-hover:text-gray-400 transition-colors' : ''
-      }`}>
+      <div
+        className={`text-xs md:text-sm font-medium text-gray-500 mt-2 whitespace-nowrap overflow-hidden text-ellipsis uppercase tracking-wider ${
+          clickable ? 'group-hover:text-gray-400 transition-colors' : ''
+        }`}
+      >
         {subtext}
       </div>
     )}
@@ -244,8 +245,6 @@ const DashboardStats = ({ runs: propRuns }: DashboardStatsProps) => {
           </div>
         </div>
       </div>
-
-      
 
       {/* Personal Bests Section */}
       <div className="relative w-full">

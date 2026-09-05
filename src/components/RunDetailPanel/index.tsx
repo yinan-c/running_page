@@ -28,7 +28,8 @@ const RunDetailPanel = ({
   const distanceKm = (run.distance / 1000).toFixed(2);
   const runTime = formatRunTime(run.moving_time);
   const movingSeconds = convertMovingTime2Sec(run.moving_time);
-  const pace = movingSeconds > 0 ? formatPace(run.distance / movingSeconds) : `0'00"`;
+  const pace =
+    movingSeconds > 0 ? formatPace(run.distance / movingSeconds) : `0'00"`;
   const currentHeartRate = Number.isFinite(run.average_heartrate)
     ? Math.round(run.average_heartrate as number)
     : null;
@@ -41,7 +42,8 @@ const RunDetailPanel = ({
   const calories = run.calories;
   const elevHigh = run.elev_high;
   const elevLow = run.elev_low;
-  const elevGain = run.elevation_gain ?? (elevHigh && elevLow ? elevHigh - elevLow : null);
+  const elevGain =
+    run.elevation_gain ?? (elevHigh && elevLow ? elevHigh - elevLow : null);
   const elevGainDisplay = elevGain !== null ? Math.round(elevGain) : null;
 
   const heartRate = currentHeartRate !== null ? `${currentHeartRate} bpm` : '~';
@@ -85,7 +87,13 @@ const RunDetailPanel = ({
           </div>
         </div>
 
-        <div className={`grid grid-cols-2 gap-y-2 gap-x-4 ${showRunStats ? 'border-y border-gray-800/50 py-4' : 'border-t border-gray-800/50 pt-4'} `}>
+        <div
+          className={`grid grid-cols-2 gap-y-2 gap-x-4 ${
+            showRunStats
+              ? 'border-y border-gray-800/50 py-4'
+              : 'border-t border-gray-800/50 pt-4'
+          } `}
+        >
           <div className="flex flex-col items-start text-left gap-1">
             <span className="font-sans text-[9px] md:text-[10px] font-bold text-secondary uppercase tracking-wider truncate flex items-center gap-1">
               <svg
@@ -104,9 +112,15 @@ const RunDetailPanel = ({
             </span>
             <div className="flex items-baseline justify-start gap-1 mt-0.5 whitespace-nowrap">
               <div className="text-[29px] md:text-[36px] font-condensed font-black text-emerald-400 tracking-tighter leading-none">
-                <CyclingText text={distanceKm} hoverPlay={true} interval={50} className="text-emerald-400" />
+                <CyclingText
+                  text={distanceKm}
+                  interval={50}
+                  className="text-emerald-400"
+                />
               </div>
-              <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">KM</span>
+              <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">
+                KM
+              </span>
             </div>
           </div>
 
@@ -128,9 +142,15 @@ const RunDetailPanel = ({
             </span>
             <div className="flex items-baseline justify-start gap-1 mt-0.5 whitespace-nowrap">
               <div className="text-[29px] md:text-[36px] font-condensed font-black text-blue-400 tracking-tighter leading-none">
-                <CyclingText text={pace} hoverPlay={true} interval={50} className="text-blue-400" />
+                <CyclingText
+                  text={pace}
+                  interval={50}
+                  className="text-blue-400"
+                />
               </div>
-              <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">/KM</span>
+              <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">
+                /KM
+              </span>
             </div>
             <div className="text-[9px] text-gray-500 font-medium whitespace-nowrap mt-0">
               {run.average_speed ? `${run.average_speed.toFixed(2)} m/s` : '~'}
@@ -155,7 +175,11 @@ const RunDetailPanel = ({
             </span>
             <div className="flex items-baseline justify-start gap-1 mt-0.5 whitespace-nowrap">
               <div className="text-[29px] md:text-[36px] font-condensed font-black text-purple-400 tracking-tighter leading-none">
-                <CyclingText text={runTime} hoverPlay={true} interval={50} className="text-purple-400" />
+                <CyclingText
+                  text={runTime}
+                  interval={50}
+                  className="text-purple-400"
+                />
               </div>
             </div>
           </div>
@@ -178,10 +202,18 @@ const RunDetailPanel = ({
             </span>
             <div className="flex items-baseline justify-start gap-1 mt-0.5 whitespace-nowrap">
               <div className="text-[29px] md:text-[36px] font-condensed font-black text-orange-400 tracking-tighter leading-none">
-                <CyclingText text={currentHeartRate !== null ? String(currentHeartRate) : '~'} hoverPlay={true} interval={50} className="text-orange-400" />
+                <CyclingText
+                  text={
+                    currentHeartRate !== null ? String(currentHeartRate) : '~'
+                  }
+                  interval={50}
+                  className="text-orange-400"
+                />
               </div>
               {currentHeartRate !== null && (
-                <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">BPM</span>
+                <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">
+                  BPM
+                </span>
               )}
             </div>
           </div>
@@ -191,31 +223,55 @@ const RunDetailPanel = ({
         <div className="grid grid-cols-2 gap-y-2 gap-x-4 pt-4">
           <div className="flex flex-col items-start text-left gap-1">
             <span className="font-sans text-[9px] md:text-[10px] font-bold text-secondary uppercase tracking-wider truncate flex items-center gap-1">
-              <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg
+                viewBox="0 0 24 24"
+                className="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
               </svg>
               Max HR
             </span>
             <div className="flex items-baseline justify-start gap-1 mt-0.5 whitespace-nowrap">
               <div className="text-[29px] md:text-[36px] font-condensed font-black text-red-400 tracking-tighter leading-none">
-                <CyclingText text={maxHr !== null ? String(maxHr) : '--'} hoverPlay={true} interval={50} className="text-red-400" />
+                <CyclingText
+                  text={maxHr !== null ? String(maxHr) : '--'}
+                  interval={50}
+                  className="text-red-400"
+                />
               </div>
               {maxHr !== null && (
-                <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">BPM</span>
+                <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">
+                  BPM
+                </span>
               )}
             </div>
           </div>
 
           <div className="flex flex-col items-start text-left gap-1">
             <span className="font-sans text-[9px] md:text-[10px] font-bold text-secondary uppercase tracking-wider truncate flex items-center gap-1">
-              <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg
+                viewBox="0 0 24 24"
+                className="w-3 h-3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
                 <path d="M12 19V5M5 12l7-7 7 7" />
               </svg>
               Elevation
             </span>
             <div className="flex items-baseline justify-start gap-1 mt-0.5 whitespace-nowrap">
               <div className="text-[29px] md:text-[36px] font-condensed font-black text-teal-400 tracking-tighter leading-none">
-                <CyclingText text={elevGainDisplay !== null ? String(elevGainDisplay) : '--'} hoverPlay={true} interval={50} className="text-teal-400" />
+                <CyclingText
+                  text={
+                    elevGainDisplay !== null ? String(elevGainDisplay) : '--'
+                  }
+                  interval={50}
+                  className="text-teal-400"
+                />
               </div>
               {elevHigh && elevLow && (
                 <div className="text-[9px] text-gray-500 font-medium ml-1">
@@ -274,7 +330,9 @@ const RunDetailPanel = ({
                     <span className="text-2xl font-condensed font-black text-primary tracking-tight leading-none">
                       {monthlyDistanceKm.toFixed(2)}
                     </span>
-                    <span className="text-[10px] font-medium text-secondary">km</span>
+                    <span className="text-[10px] font-medium text-secondary">
+                      km
+                    </span>
                   </div>
                 </div>
 

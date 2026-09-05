@@ -120,7 +120,6 @@ const Index = () => {
     }
   };
 
-
   return (
     <Layout>
       {/* Flowing Lines Background - covers viewport */}
@@ -135,7 +134,7 @@ const Index = () => {
         {/* Heatmap Card */}
         <div className="relative w-full bg-card rounded-card shadow-lg border border-gray-800/50 p-6 md:p-8 overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-orange-500/10 to-transparent pointer-events-none" />
-          
+
           <div className="relative z-10">
             {/* Header area of the card */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
@@ -150,7 +149,14 @@ const Index = () => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <rect
+                      x="3"
+                      y="4"
+                      width="18"
+                      height="18"
+                      rx="2"
+                      ry="2"
+                    ></rect>
                     <line x1="16" y1="2" x2="16" y2="6"></line>
                     <line x1="8" y1="2" x2="8" y2="6"></line>
                     <line x1="3" y1="10" x2="21" y2="10"></line>
@@ -159,7 +165,7 @@ const Index = () => {
                     YEARLY HEATMAP
                   </h2>
                 </div>
-                
+
                 <div className="flex items-start gap-6 flex-wrap">
                   <div className="flex flex-col gap-1">
                     <span className="font-sans text-[10px] md:text-xs font-bold text-secondary uppercase tracking-wider">
@@ -169,7 +175,6 @@ const Index = () => {
                       <CyclingText
                         text={String(yearStats.count)}
                         className="text-3xl md:text-4xl font-condensed font-black text-accent tracking-tight leading-none"
-                        hoverPlay={true}
                         interval={50}
                       />
                     </div>
@@ -183,10 +188,11 @@ const Index = () => {
                       <CyclingText
                         text={yearStats.distance.toFixed(1)}
                         className="text-3xl md:text-4xl font-condensed font-black text-accent tracking-tight leading-none"
-                        hoverPlay={true}
                         interval={50}
                       />
-                      <span className="text-xs font-medium text-secondary">KM</span>
+                      <span className="text-xs font-medium text-secondary">
+                        KM
+                      </span>
                     </div>
                   </div>
                   <div className="w-px h-8 bg-gray-800/50 hidden md:block self-center"></div>
@@ -237,23 +243,25 @@ const Index = () => {
             </div>
 
             <div className="relative min-h-[180px] md:min-h-[180px]">
-            {/* Loading overlay - only show when no data exists yet */}
-            {heatmapData.length === 0 && isLoading && (
-              <div className="absolute inset-0 bg-card/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
-                <div className="text-secondary font-medium animate-pulse">
-                  Loading {selectedYear} data...
+              {/* Loading overlay - only show when no data exists yet */}
+              {heatmapData.length === 0 && isLoading && (
+                <div className="absolute inset-0 bg-card/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+                  <div className="text-secondary font-medium animate-pulse">
+                    Loading {selectedYear} data...
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            <AnnualHeatmap
-              year={selectedYear}
-              data={heatmapData}
-              onDayClick={handleDayClick}
-              isLoading={false}
-              animationKey={`${selectedYear}-${heatmapData.length > 0 ? 'ready' : 'waiting'}`}
-            />
-          </div>
+              <AnnualHeatmap
+                year={selectedYear}
+                data={heatmapData}
+                onDayClick={handleDayClick}
+                isLoading={false}
+                animationKey={`${selectedYear}-${
+                  heatmapData.length > 0 ? 'ready' : 'waiting'
+                }`}
+              />
+            </div>
           </div>
         </div>
 

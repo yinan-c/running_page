@@ -1,16 +1,10 @@
 import { Link } from 'react-router-dom';
 import useSiteMetadata from '@/hooks/useSiteMetadata';
-import { useRef, useCallback, useState } from 'react';
-import CyclingText, { CyclingTextHandle } from '@/components/CyclingText';
+import { useState } from 'react';
 
 const Header = () => {
   const { navLinks } = useSiteMetadata();
-  const runRef = useRef<CyclingTextHandle>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const handleMouseEnter = useCallback(() => {
-    runRef.current?.play();
-  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -22,15 +16,13 @@ const Header = () => {
         <Link
           to="/"
           className="group flex items-center gap-1 text-2xl font-black italic tracking-tighter text-white"
-          onMouseEnter={handleMouseEnter}
           onClick={() => setIsMenuOpen(false)}
         >
-          <CyclingText
-            ref={runRef}
-            text="RUNNINAN"
-            className="inline-block group-hover:scale-105 origin-left transition-transform duration-300"
-            hoverPlay={true}
-          />
+          {/* pr-2 reserves room for the italic overhang on the final glyph,
+              which is otherwise clipped at the inline box edge. */}
+          <span className="inline-block pr-2 group-hover:scale-105 origin-left transition-transform duration-300">
+            RUNNINAN
+          </span>
         </Link>
       </div>
 

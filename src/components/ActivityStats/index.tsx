@@ -75,8 +75,18 @@ const YEAR_COLORS: string[] = [
 ];
 
 const MONTH_LABELS = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ];
 
 const MAX_COMPARE_YEARS = 3;
@@ -460,415 +470,430 @@ const ActivityStats: React.FC<ActivityStatsProps> = ({ activities }) => {
 
         {/* Top Controls */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8 gap-6">
-        {/* Tabs */}
-        <div className="flex flex-wrap gap-2 justify-start">
-          {timeSpans.map((t) => (
-            <button
-              key={t.value}
-              onClick={() => setTimeSpan(t.value)}
-              type="button"
-              className={`px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-200 active:scale-95 ${
-                timeSpan === t.value
-                  ? 'bg-accent text-white shadow-md shadow-accent/20'
-                  : 'bg-gray-800 text-secondary hover:bg-gray-700 hover:text-primary'
-              }`}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Navigation & Title - centered on mobile, left-aligned on desktop */}
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
-          {timeSpan !== 'all' && (
-            <button
-              onClick={handlePrev}
-              className="p-1.5 hover:bg-gray-800 rounded-full text-secondary hover:text-primary transition-colors"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2.5}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-          )}
-          <span className="text-sm font-bold text-primary min-w-[120px] text-center tracking-wide">
-            {title}
-          </span>
-          {timeSpan !== 'all' && (
-            <button
-              onClick={handleNext}
-              className="p-1.5 hover:bg-gray-800 rounded-full text-secondary hover:text-primary transition-colors"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2.5}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          )}
-
-          {/* Compare Years Select - only in Year view, merged with title group.
-              On mobile it wraps to a new line below the navigation. */}
-          {timeSpan === 'year' && (
-            <div className="relative w-full sm:w-40" ref={compareDropdownRef}>
+          {/* Tabs */}
+          <div className="flex flex-wrap gap-2 justify-start">
+            {timeSpans.map((t) => (
               <button
+                key={t.value}
+                onClick={() => setTimeSpan(t.value)}
                 type="button"
-                onClick={() => setCompareDropdownOpen((o) => !o)}
-                className="flex items-center justify-between w-full px-4 py-2 text-xs font-medium text-primary bg-card border border-gray-800 rounded-md shadow-sm hover:bg-gray-800 focus:outline-none transition-colors"
+                className={`px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-200 active:scale-95 ${
+                  timeSpan === t.value
+                    ? 'bg-accent text-white shadow-md shadow-accent/20'
+                    : 'bg-gray-800 text-secondary hover:bg-gray-700 hover:text-primary'
+                }`}
               >
-                <span className="truncate">
-                  {compareYears.length === 0
-                    ? 'Compare Years'
-                    : `Compare: ${compareYears.join(', ')}`}
-                </span>
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Navigation & Title - centered on mobile, left-aligned on desktop */}
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+            {timeSpan !== 'all' && (
+              <button
+                onClick={handlePrev}
+                className="p-1.5 hover:bg-gray-800 rounded-full text-secondary hover:text-primary transition-colors"
+              >
                 <svg
-                  className={`w-4 h-4 ml-2 text-secondary shrink-0 transition-transform duration-200 ${
-                    compareDropdownOpen ? 'rotate-180' : ''
-                  }`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
                   <path
-                    fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clipRule="evenodd"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M15 19l-7-7 7-7"
                   />
                 </svg>
               </button>
+            )}
+            <span className="text-sm font-bold text-primary min-w-[120px] text-center tracking-wide">
+              {title}
+            </span>
+            {timeSpan !== 'all' && (
+              <button
+                onClick={handleNext}
+                className="p-1.5 hover:bg-gray-800 rounded-full text-secondary hover:text-primary transition-colors"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2.5}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            )}
 
-              {compareDropdownOpen && (
-                <div className="absolute right-0 z-20 w-full mt-2 origin-top-right bg-card rounded-md shadow-lg ring-1 ring-gray-800 focus:outline-none max-h-60 overflow-y-auto custom-scrollbar">
-                  <div className="py-1" role="menu" aria-orientation="vertical">
-                    {availableYears.length === 0 && (
-                      <span className="block px-4 py-2 text-xs text-secondary">
-                        No other years
-                      </span>
-                    )}
-                    {availableYears.map((y) => {
-                      const selected = compareYears.includes(y);
-                      const disabled =
-                        !selected && compareYears.length >= MAX_COMPARE_YEARS;
-                      return (
-                        <button
-                          key={y}
-                          type="button"
-                          disabled={disabled}
-                          onClick={() => toggleCompareYear(y)}
-                          className={`flex items-center gap-2 block w-full px-4 py-2 text-sm text-left transition-colors ${
-                            disabled
-                              ? 'text-gray-600 cursor-not-allowed'
-                              : selected
+            {/* Compare Years Select - only in Year view, merged with title group.
+              On mobile it wraps to a new line below the navigation. */}
+            {timeSpan === 'year' && (
+              <div className="relative w-full sm:w-40" ref={compareDropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setCompareDropdownOpen((o) => !o)}
+                  className="flex items-center justify-between w-full px-4 py-2 text-xs font-medium text-primary bg-card border border-gray-800 rounded-md shadow-sm hover:bg-gray-800 focus:outline-none transition-colors"
+                >
+                  <span className="truncate">
+                    {compareYears.length === 0
+                      ? 'Compare Years'
+                      : `Compare: ${compareYears.join(', ')}`}
+                  </span>
+                  <svg
+                    className={`w-4 h-4 ml-2 text-secondary shrink-0 transition-transform duration-200 ${
+                      compareDropdownOpen ? 'rotate-180' : ''
+                    }`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+
+                {compareDropdownOpen && (
+                  <div className="absolute right-0 z-20 w-full mt-2 origin-top-right bg-card rounded-md shadow-lg ring-1 ring-gray-800 focus:outline-none max-h-60 overflow-y-auto custom-scrollbar">
+                    <div
+                      className="py-1"
+                      role="menu"
+                      aria-orientation="vertical"
+                    >
+                      {availableYears.length === 0 && (
+                        <span className="block px-4 py-2 text-xs text-secondary">
+                          No other years
+                        </span>
+                      )}
+                      {availableYears.map((y) => {
+                        const selected = compareYears.includes(y);
+                        const disabled =
+                          !selected && compareYears.length >= MAX_COMPARE_YEARS;
+                        return (
+                          <button
+                            key={y}
+                            type="button"
+                            disabled={disabled}
+                            onClick={() => toggleCompareYear(y)}
+                            className={`flex items-center gap-2 block w-full px-4 py-2 text-sm text-left transition-colors ${
+                              disabled
+                                ? 'text-gray-600 cursor-not-allowed'
+                                : selected
                                 ? 'bg-gray-800 text-primary font-bold'
                                 : 'text-secondary hover:bg-gray-800 hover:text-primary'
-                          }`}
-                          role="menuitem"
-                        >
-                          <span
-                            className={`w-3.5 h-3.5 rounded-sm border flex items-center justify-center shrink-0 ${
-                              selected
-                                ? 'bg-accent border-accent'
-                                : 'border-gray-600'
                             }`}
+                            role="menuitem"
                           >
-                            {selected && (
-                              <svg
-                                className="w-2.5 h-2.5 text-white"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={3}
-                                  d="M5 13l4 4L19 7"
-                                />
-                              </svg>
-                            )}
-                          </span>
-                          {y}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Dimension Select */}
-        <Dropdown
-          options={dimensions}
-          value={dimension}
-          onChange={(val) => setDimension(val as Dimension)}
-          className="w-32"
-        />
-      </div>
-
-      {/* Legend - only for grouped bar chart */}
-      {comparisonChartData && (
-        <div className="flex items-center justify-center gap-4 flex-wrap mb-3">
-          {comparisonChartData.years.map((y, i) => (
-            <div key={y} className="flex items-center gap-1.5">
-              <span
-                className={`w-3 h-3 rounded-sm bg-gradient-to-t ${YEAR_COLORS[i % YEAR_COLORS.length]}`}
-              />
-              <span
-                className={`text-xs ${
-                  y === mainYear
-                    ? 'text-primary font-bold'
-                    : 'text-secondary'
-                }`}
-              >
-                {y}
-                {y === mainYear && (
-                  <span className="text-[9px] text-gray-500 ml-0.5">
-                    (current)
-                  </span>
-                )}
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Chart Area */}
-      {comparisonChartData ? (
-        // Grouped bar chart (Year view with compare years)
-        <div className="h-32 md:h-44 mb-6 flex items-end gap-2 border-b border-gray-800/50">
-          {comparisonChartData.data.map((d, i) => {
-            const hasAnyValue = d.bars.some((v) => v > 0);
-            return (
-              <div
-                key={i}
-                className="flex-1 flex flex-col items-center justify-end h-full group relative min-w-0"
-              >
-                {/* Tooltip - lists all years for this month */}
-                <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 bg-gray-900/95 backdrop-blur-sm border border-white/10 rounded-lg px-2.5 py-1.5 shadow-xl flex flex-col items-start pointer-events-none transition-all duration-200 ease-out z-10 -translate-y-1 group-hover:translate-y-0 min-w-[max-content]">
-                  <span className="text-[10px] text-gray-400 font-medium mb-1">
-                    {d.label}
-                  </span>
-                  {comparisonChartData.years.map((y, yi) => {
-                    const val = d.bars[yi];
-                    return (
-                      <div
-                        key={y}
-                        className="flex items-center gap-1.5 text-xs font-mono"
-                      >
-                        <span
-                          className={`w-2 h-2 rounded-sm bg-gradient-to-t ${YEAR_COLORS[yi % YEAR_COLORS.length]}`}
-                        />
-                        <span className="text-gray-400">{y}:</span>
-                        <span className="text-white font-bold">
-                          {dimension === 'time'
-                            ? formatDuration(val * 60)
-                            : val.toFixed(1)}
-                          {dimension === 'distance' && (
-                            <span className="text-[8px] text-gray-500 ml-0.5">
-                              KM
+                            <span
+                              className={`w-3.5 h-3.5 rounded-sm border flex items-center justify-center shrink-0 ${
+                                selected
+                                  ? 'bg-accent border-accent'
+                                  : 'border-gray-600'
+                              }`}
+                            >
+                              {selected && (
+                                <svg
+                                  className="w-2.5 h-2.5 text-white"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={3}
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                              )}
                             </span>
-                          )}
-                        </span>
-                      </div>
-                    );
-                  })}
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-gray-900/95" />
-                </div>
-
-                <div className="flex-1 w-full flex items-end justify-center gap-0.5 pb-3">
-                  {d.bars.map((val, yi) => (
-                    <div
-                      key={yi}
-                      className="flex-1 max-w-[20px] rounded-t origin-bottom transition-[height,transform,filter] duration-500 ease-out group-hover:scale-y-[1.04] bg-gradient-to-t opacity-80 group-hover:opacity-100 group-hover:brightness-110"
-                      style={{
-                        height: `${(val / comparisonMaxValue) * 100}%`,
-                        minHeight: val > 0 ? '3px' : '0',
-                      }}
-                    >
-                      <div
-                        className={`w-full h-full rounded-t bg-gradient-to-t ${YEAR_COLORS[yi % YEAR_COLORS.length]}`}
-                      />
+                            {y}
+                          </button>
+                        );
+                      })}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
-                <div
-                  className={`text-[10px] w-full text-center transition-colors group-hover:text-primary ${
-                    hasAnyValue ? 'text-gray-500' : 'text-transparent'
+          {/* Dimension Select */}
+          <Dropdown
+            options={dimensions}
+            value={dimension}
+            onChange={(val) => setDimension(val as Dimension)}
+            className="w-32"
+          />
+        </div>
+
+        {/* Legend - only for grouped bar chart */}
+        {comparisonChartData && (
+          <div className="flex items-center justify-center gap-4 flex-wrap mb-3">
+            {comparisonChartData.years.map((y, i) => (
+              <div key={y} className="flex items-center gap-1.5">
+                <span
+                  className={`w-3 h-3 rounded-sm bg-gradient-to-t ${
+                    YEAR_COLORS[i % YEAR_COLORS.length]
+                  }`}
+                />
+                <span
+                  className={`text-xs ${
+                    y === mainYear ? 'text-primary font-bold' : 'text-secondary'
                   }`}
                 >
-                  {d.label}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        // Single-series bar chart (default)
-        <div className="h-32 md:h-44 mb-6 flex items-end gap-2 border-b border-gray-800/50">
-          {chartData.map((d, i) => (
-            <div
-              key={i}
-              className="flex-1 flex flex-col items-center justify-end h-full group relative min-w-0"
-            >
-              {/* Tooltip */}
-              <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 bg-gray-900/95 backdrop-blur-sm border border-white/10 rounded-lg px-2.5 py-1.5 shadow-xl flex flex-col items-center pointer-events-none transition-all duration-200 ease-out z-10 -translate-y-1 group-hover:translate-y-0 min-w-[max-content]">
-                <span className="text-[10px] text-gray-400 font-medium mb-0.5">
-                  {timeSpan === 'month' ? `Day ${d.label}` : d.label}
-                </span>
-                <span className="text-xs font-mono text-white font-bold">
-                  {dimension === 'time'
-                    ? formatDuration(d.value * 60)
-                    : d.value.toFixed(1)}
-                  {dimension === 'distance' && (
-                    <span className="text-[8px] text-gray-500 ml-0.5">KM</span>
+                  {y}
+                  {y === mainYear && (
+                    <span className="text-[9px] text-gray-500 ml-0.5">
+                      (current)
+                    </span>
                   )}
                 </span>
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-gray-900/95" />
               </div>
-
-              <div className="flex-1 w-full flex items-end justify-center pb-3">
-                <div
-                  className="w-full max-w-[32px] rounded-t origin-bottom transition-[height,transform,filter] duration-500 ease-out group-hover:scale-y-[1.04] bg-gradient-to-t from-[#4fc3f7] to-[#81d4fa] opacity-80 group-hover:opacity-100 group-hover:brightness-110"
-                  style={{
-                    height: `${(d.value / maxValue) * 100}%`,
-                    minHeight: d.value > 0 ? '4px' : '0',
-                  }}
-                ></div>
-              </div>
-
-              <div className={`text-[10px] w-full text-center transition-colors group-hover:text-primary ${
-                shouldShowLabel(i, chartData.length) ? 'text-gray-500' : 'text-transparent'
-              }`}>
-                {shouldShowLabel(i, chartData.length) ? d.label : '·'}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 pt-6 border-t border-gray-800/50">
-        <MetricCard
-          title="Total Distance"
-          value={metrics.totalDist.toFixed(1)}
-          unit="KM"
-          valueColor="#60a5fa"
-        />
-        <MetricCard
-          title="Total Time"
-          value={formatDuration(metrics.totalTime)}
-          unit=""
-          valueColor="#c084fc"
-        />
-        <MetricCard
-          title="Total Runs"
-          value={metrics.count.toString()}
-          unit="RUNS"
-          valueColor="#fb923c"
-        />
-        <MetricCard
-          title="Avg Pace"
-          value={metrics.avgPace}
-          unit="/KM"
-          valueColor="#34d399"
-        />
-        <MetricCard
-          title="Avg HR"
-          value={metrics.avgHR}
-          unit="BPM"
-          valueColor="#fb7185"
-        />
-        <MetricCard
-          title="Best Pace"
-          value={metrics.maxPace}
-          unit="/KM"
-          valueColor="#facc15"
-        />
-        <MetricCard
-          title="Countries"
-          value={locationStats.countryCount.toString()}
-          unit="COUNTRIES"
-          valueColor="#38bdf8"
-        />
-        <MetricCard
-          title="Cities"
-          value={locationStats.cityCount.toString()}
-          unit="CITIES"
-          valueColor="#a78bfa"
-        />
-
-        {/* Graphic Aerobic Zones */}
-        <div className="flex flex-col items-start gap-1 col-span-2 md:col-span-2 w-full">
-          <div className="flex items-center justify-start gap-2 mb-1 w-full">
-            <span className="font-sans text-[10px] md:text-xs font-bold text-secondary uppercase tracking-wider truncate">
-              AEROBIC ZONES
-            </span>
+            ))}
           </div>
-          <div className="grid grid-cols-5 gap-1.5 w-full max-w-[200px] h-full pb-1">
-            {AEROBIC_ZONES.map((zone) => {
-              const val = zoneDistribution[zone.zone] || 0;
-              const isHighlighted = val > 0 && val === maxZoneValue;
-              let displayVal = '-';
-              if (val > 0) {
-                if (dimension === 'time') displayVal = formatDuration(val);
-                else if (dimension === 'distance') displayVal = val.toFixed(1);
-                else displayVal = val.toString();
-              }
+        )}
 
+        {/* Chart Area */}
+        {comparisonChartData ? (
+          // Grouped bar chart (Year view with compare years)
+          <div className="h-32 md:h-44 mb-6 flex items-end gap-2 border-b border-gray-800/50">
+            {comparisonChartData.data.map((d, i) => {
+              const hasAnyValue = d.bars.some((v) => v > 0);
               return (
                 <div
-                  key={zone.zone}
-                  className={`rounded-md p-1 text-center transition-all flex flex-col justify-center gap-0.5 ${
-                    isHighlighted
-                      ? 'border border-white/50 shadow-[0_0_8px_rgba(255,255,255,0.2)] scale-[1.05]'
-                      : 'border border-white/5'
-                  }`}
-                  style={{
-                    backgroundColor: zone.color,
-                    opacity: val > 0 ? (isHighlighted ? 1 : 0.6) : 0.2,
-                  }}
+                  key={i}
+                  className="flex-1 flex flex-col items-center justify-end h-full group relative min-w-0"
                 >
-                  <div
-                    className={`text-[10px] font-black leading-none ${
-                      val > 0 ? 'text-black' : 'text-black/80'
-                    }`}
-                  >
-                    Z{zone.zone}
+                  {/* Tooltip - lists all years for this month */}
+                  <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 bg-gray-900/95 backdrop-blur-sm border border-white/10 rounded-lg px-2.5 py-1.5 shadow-xl flex flex-col items-start pointer-events-none transition-all duration-200 ease-out z-10 -translate-y-1 group-hover:translate-y-0 min-w-[max-content]">
+                    <span className="text-[10px] text-gray-400 font-medium mb-1">
+                      {d.label}
+                    </span>
+                    {comparisonChartData.years.map((y, yi) => {
+                      const val = d.bars[yi];
+                      return (
+                        <div
+                          key={y}
+                          className="flex items-center gap-1.5 text-xs font-mono"
+                        >
+                          <span
+                            className={`w-2 h-2 rounded-sm bg-gradient-to-t ${
+                              YEAR_COLORS[yi % YEAR_COLORS.length]
+                            }`}
+                          />
+                          <span className="text-gray-400">{y}:</span>
+                          <span className="text-white font-bold">
+                            {dimension === 'time'
+                              ? formatDuration(val * 60)
+                              : val.toFixed(1)}
+                            {dimension === 'distance' && (
+                              <span className="text-[8px] text-gray-500 ml-0.5">
+                                KM
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                      );
+                    })}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-gray-900/95" />
                   </div>
+
+                  <div className="flex-1 w-full flex items-end justify-center gap-0.5 pb-3">
+                    {d.bars.map((val, yi) => (
+                      <div
+                        key={yi}
+                        className="flex-1 max-w-[20px] rounded-t origin-bottom transition-[height,transform,filter] duration-500 ease-out group-hover:scale-y-[1.04] bg-gradient-to-t opacity-80 group-hover:opacity-100 group-hover:brightness-110"
+                        style={{
+                          height: `${(val / comparisonMaxValue) * 100}%`,
+                          minHeight: val > 0 ? '3px' : '0',
+                        }}
+                      >
+                        <div
+                          className={`w-full h-full rounded-t bg-gradient-to-t ${
+                            YEAR_COLORS[yi % YEAR_COLORS.length]
+                          }`}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
                   <div
-                    className={`text-[9px] font-bold leading-none tracking-tighter ${
-                      val > 0 ? 'text-black/90' : 'text-black/50'
+                    className={`text-[10px] w-full text-center transition-colors group-hover:text-primary ${
+                      hasAnyValue ? 'text-gray-500' : 'text-transparent'
                     }`}
                   >
-                    {displayVal}
+                    {d.label}
                   </div>
                 </div>
               );
             })}
           </div>
+        ) : (
+          // Single-series bar chart (default)
+          <div className="h-32 md:h-44 mb-6 flex items-end gap-2 border-b border-gray-800/50">
+            {chartData.map((d, i) => (
+              <div
+                key={i}
+                className="flex-1 flex flex-col items-center justify-end h-full group relative min-w-0"
+              >
+                {/* Tooltip */}
+                <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 bg-gray-900/95 backdrop-blur-sm border border-white/10 rounded-lg px-2.5 py-1.5 shadow-xl flex flex-col items-center pointer-events-none transition-all duration-200 ease-out z-10 -translate-y-1 group-hover:translate-y-0 min-w-[max-content]">
+                  <span className="text-[10px] text-gray-400 font-medium mb-0.5">
+                    {timeSpan === 'month' ? `Day ${d.label}` : d.label}
+                  </span>
+                  <span className="text-xs font-mono text-white font-bold">
+                    {dimension === 'time'
+                      ? formatDuration(d.value * 60)
+                      : d.value.toFixed(1)}
+                    {dimension === 'distance' && (
+                      <span className="text-[8px] text-gray-500 ml-0.5">
+                        KM
+                      </span>
+                    )}
+                  </span>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-gray-900/95" />
+                </div>
+
+                <div className="flex-1 w-full flex items-end justify-center pb-3">
+                  <div
+                    className="w-full max-w-[32px] rounded-t origin-bottom transition-[height,transform,filter] duration-500 ease-out group-hover:scale-y-[1.04] bg-gradient-to-t from-[#4fc3f7] to-[#81d4fa] opacity-80 group-hover:opacity-100 group-hover:brightness-110"
+                    style={{
+                      height: `${(d.value / maxValue) * 100}%`,
+                      minHeight: d.value > 0 ? '4px' : '0',
+                    }}
+                  ></div>
+                </div>
+
+                <div
+                  className={`text-[10px] w-full text-center transition-colors group-hover:text-primary ${
+                    shouldShowLabel(i, chartData.length)
+                      ? 'text-gray-500'
+                      : 'text-transparent'
+                  }`}
+                >
+                  {shouldShowLabel(i, chartData.length) ? d.label : '·'}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 pt-6 border-t border-gray-800/50">
+          <MetricCard
+            title="Total Distance"
+            value={metrics.totalDist.toFixed(1)}
+            unit="KM"
+            valueColor="#60a5fa"
+          />
+          <MetricCard
+            title="Total Time"
+            value={formatDuration(metrics.totalTime)}
+            unit=""
+            valueColor="#c084fc"
+          />
+          <MetricCard
+            title="Total Runs"
+            value={metrics.count.toString()}
+            unit="RUNS"
+            valueColor="#fb923c"
+          />
+          <MetricCard
+            title="Avg Pace"
+            value={metrics.avgPace}
+            unit="/KM"
+            valueColor="#34d399"
+          />
+          <MetricCard
+            title="Avg HR"
+            value={metrics.avgHR}
+            unit="BPM"
+            valueColor="#fb7185"
+          />
+          <MetricCard
+            title="Best Pace"
+            value={metrics.maxPace}
+            unit="/KM"
+            valueColor="#facc15"
+          />
+          <MetricCard
+            title="Countries"
+            value={locationStats.countryCount.toString()}
+            unit="COUNTRIES"
+            valueColor="#38bdf8"
+          />
+          <MetricCard
+            title="Cities"
+            value={locationStats.cityCount.toString()}
+            unit="CITIES"
+            valueColor="#a78bfa"
+          />
+
+          {/* Graphic Aerobic Zones */}
+          <div className="flex flex-col items-start gap-1 col-span-2 md:col-span-2 w-full">
+            <div className="flex items-center justify-start gap-2 mb-1 w-full">
+              <span className="font-sans text-[10px] md:text-xs font-bold text-secondary uppercase tracking-wider truncate">
+                AEROBIC ZONES
+              </span>
+            </div>
+            <div className="grid grid-cols-5 gap-1.5 w-full max-w-[200px] h-full pb-1">
+              {AEROBIC_ZONES.map((zone) => {
+                const val = zoneDistribution[zone.zone] || 0;
+                const isHighlighted = val > 0 && val === maxZoneValue;
+                let displayVal = '-';
+                if (val > 0) {
+                  if (dimension === 'time') displayVal = formatDuration(val);
+                  else if (dimension === 'distance')
+                    displayVal = val.toFixed(1);
+                  else displayVal = val.toString();
+                }
+
+                return (
+                  <div
+                    key={zone.zone}
+                    className={`rounded-md p-1 text-center transition-all flex flex-col justify-center gap-0.5 ${
+                      isHighlighted
+                        ? 'border border-white/50 shadow-[0_0_8px_rgba(255,255,255,0.2)] scale-[1.05]'
+                        : 'border border-white/5'
+                    }`}
+                    style={{
+                      backgroundColor: zone.color,
+                      opacity: val > 0 ? (isHighlighted ? 1 : 0.6) : 0.2,
+                    }}
+                  >
+                    <div
+                      className={`text-[10px] font-black leading-none ${
+                        val > 0 ? 'text-black' : 'text-black/80'
+                      }`}
+                    >
+                      Z{zone.zone}
+                    </div>
+                    <div
+                      className={`text-[9px] font-bold leading-none tracking-tighter ${
+                        val > 0 ? 'text-black/90' : 'text-black/50'
+                      }`}
+                    >
+                      {displayVal}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
@@ -883,12 +908,7 @@ interface MetricCardProps {
   valueColor?: string;
 }
 
-const MetricCard = ({
-  title,
-  value,
-  unit,
-  valueColor,
-}: MetricCardProps) => {
+const MetricCard = ({ title, value, unit, valueColor }: MetricCardProps) => {
   const textRef = useRef<CyclingTextHandle>(null);
 
   useEffect(() => {
@@ -906,12 +926,7 @@ const MetricCard = ({
           className="text-3xl md:text-4xl font-condensed font-black tracking-tight leading-none"
           style={{ color: valueColor || 'var(--color-primary, #FFFFFF)' }}
         >
-          <CyclingText
-            ref={textRef}
-            text={value}
-            interval={50}
-            hoverPlay={true}
-          />
+          <CyclingText ref={textRef} text={value} interval={50} />
         </span>
         {unit && (
           <span className="text-xs font-medium text-secondary">{unit}</span>
