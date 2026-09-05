@@ -299,7 +299,7 @@ const ActivityTypeCard = ({
             <span className="text-xs font-bold text-secondary uppercase tracking-widest mb-1">YEAR</span>
             <span
               key={`${type}-${currentYear}`}
-              className="text-5xl md:text-6xl font-condensed font-black italic tracking-tighter text-[var(--accent-color)] transition-none"
+              className="text-5xl md:text-6xl font-condensed font-black tracking-tighter text-[var(--accent-color)] transition-none"
             >
               {currentYear}
             </span>
