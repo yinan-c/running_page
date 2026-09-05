@@ -6,7 +6,6 @@ import CyclingText, { CyclingTextHandle } from '@/components/CyclingText';
 const Header = () => {
   const { navLinks } = useSiteMetadata();
   const runRef = useRef<CyclingTextHandle>(null);
-  const colinRef = useRef<CyclingTextHandle>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMouseEnter = useCallback(() => {
@@ -28,14 +27,8 @@ const Header = () => {
         >
           <CyclingText
             ref={runRef}
-            text="RUN"
-            className="inline-block group-hover:scale-105 origin-left transition-transform duration-300 pr-2"
-            hoverPlay={true}
-          />
-          <CyclingText
-            ref={colinRef}
-            text="COLIN"
-            className="text-white inline-block group-hover:scale-105 origin-left transition-transform duration-300 pr-2"
+            text="RUNNINAN"
+            className="inline-block group-hover:scale-105 origin-left transition-transform duration-300"
             hoverPlay={true}
           />
         </Link>

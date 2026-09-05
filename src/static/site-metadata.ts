@@ -10,7 +10,7 @@ interface ISiteMetadataResult {
 }
 
 const data: ISiteMetadataResult = {
-  siteTitle: 'Run Yinan, Run!',
+  siteTitle: 'Runninan',
   siteUrl: 'https://yinan.me/running_page',
   logo: 'https://github.com/yinan-c.png',
   description: '',

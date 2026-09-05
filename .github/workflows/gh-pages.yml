@@ -104,6 +104,10 @@ jobs:
         run: pnpm install
       - name: Build
         run: PATH_PREFIX=/${{ github.event.repository.name }} pnpm build
+        env:
+          # mapbox-gl 2.x refuses to initialise without an access token, so the
+          # map renders blank when this is unset. Public (pk.*) token by design.
+          VITE_MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
