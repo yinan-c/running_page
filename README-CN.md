@@ -203,7 +203,7 @@ docker run -itd -p 80:80   running_page:latest
 
 ```typescript
 const MAPBOX_TOKEN =
-  'pk.eyJ1IjoieWlob25nMDYxOCIsImEiOiJja2J3M28xbG4wYzl0MzJxZm0ya2Fua2p2In0.PNKfkeQwYuyGOTT_x9BJ4Q';
+  'pk.your_own_mapbox_token_here';
 ```
 
 ## 个性化设置

@@ -10,9 +10,9 @@ interface ISiteMetadataResult {
 }
 
 const data: ISiteMetadataResult = {
-  siteTitle: 'Run Colin, Run!',
-  siteUrl: 'https://imcolin.fan',
-  logo: 'https://imcolin.fan/a.jpg',
+  siteTitle: 'Run Yinan, Run!',
+  siteUrl: 'https://yinan.me/running_page',
+  logo: 'https://github.com/yinan-c.png',
   description: '',
   navLinks: [
     {
@@ -33,7 +33,7 @@ const data: ISiteMetadataResult = {
     },
     {
       name: 'About',
-      url: 'https://imcolin.fan',
+      url: 'https://github.com/yinan-c',
     },
   ],
 };

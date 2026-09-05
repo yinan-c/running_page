@@ -22,22 +22,29 @@ on:
 
 env:
   # please change to your own config.
-  RUN_TYPE: pass # support strava/nike/garmin/coros/garmin_cn/garmin_sync_cn_global/keep/only_gpx/only_fit/nike_to_strava/strava_to_garmin/strava_to_garmin_cn/garmin_to_strava/garmin_to_strava_cn/codoon, Please change the 'pass' it to your own
-  ATHLETE: yihong0618
-  TITLE: Yihong0618 Running
+  RUN_TYPE: strava # support strava/nike/garmin/coros/garmin_cn/garmin_sync_cn_global/keep/only_gpx/only_fit/nike_to_strava/strava_to_garmin/strava_to_garmin_cn/garmin_to_strava/garmin_to_strava_cn/codoon
+  ATHLETE: Yinan
+  TITLE: Yinan Running
   MIN_GRID_DISTANCE: 10 # change min distance here
   TITLE_GRID: Over 10km Runs # also here
-  GITHUB_NAME: yihong0618 # change to yours
-  GITHUB_EMAIL: zouzou0208@gmail.com # change to yours
+  GITHUB_NAME: yinan-c
+  GITHUB_EMAIL: yinanchen97@gmail.com
 
   # IGNORE_BEFORE_SAVING: True # if you want to ignore some data before saving, set this to True
   IGNORE_START_END_RANGE: 10 # Unit meter
   # Dont making this huge, just picking points you needing. https://developers.google.com/maps/documentation/utilities/polylineutility using this tool to making your polyline
-  IGNORE_POLYLINE: 'ktjrFoemeU~IorGq}DeB'
+  # IGNORE_POLYLINE: '<your own polyline>' # set this to hide a private area (e.g. around home)
   IGNORE_RANGE: 10 # Unit meter
   SAVE_DATA_IN_GITHUB_CACHE: false # if you deploy in the vercal, check the README
   DATA_CACHE_PREFIX: 'track_data'
   BUILD_GH_PAGES: true # If you do not need GitHub Page please set it to `false`
+
+# New repos default GITHUB_TOKEN to read-only; the sync job pushes commits and
+# the reusable gh-pages workflow needs pages/id-token to deploy.
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   sync:
@@ -106,8 +113,8 @@ jobs:
       - name: Run sync Strava script
         if: env.RUN_TYPE == 'strava'
         run: |
-          python run_page/strava_sync.py ${{ secrets.STRAVA_CLIENT_ID }} ${{ secrets.STRAVA_CLIENT_SECRET }} ${{ secrets.STRAVA_CLIENT_REFRESH_TOKEN }}
-        # If you only want to sync `type running` add args --only-run, default script is to sync all data (rides and runs).
+          python run_page/strava_sync.py ${{ secrets.STRAVA_CLIENT_ID }} ${{ secrets.STRAVA_CLIENT_SECRET }} ${{ secrets.STRAVA_CLIENT_REFRESH_TOKEN }} --only-run
+        # Drop --only-run to also sync rides, hikes, swims etc.
 
       - name: Run sync Codoon script
         if: env.RUN_TYPE == 'codoon'
